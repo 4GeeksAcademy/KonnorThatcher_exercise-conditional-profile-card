@@ -33,14 +33,14 @@ function render(variables = {}) {
   document.querySelector("#widget_content").innerHTML = `<div class="widget">
             ${cover}
           <img src="${variables.avatarURL}" class="photo" />
-          <h1>Lucy Boilett</h1>
-          <h2>Web Developer</h2>
-          <h3>Miami, USA</h3>
-          <ul class="position-right">
-            <li><a href="https://twitter.com/4geeksacademy"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="https://github.com/4geeksacademy"><i class="fab fa-github"></i></a></li>
-            <li><a href="https://linkedin.com/4geeksacademy"><i class="fab fa-linkedin"></i></a></li>
-            <li><a href="https://instagram.com/4geeksacademy"><i class="fab fa-instagram"></i></a></li>
+          <h1>${variables.name ? variables.name : "Vanilla"} ${variables.lastname ? variables.lastname : "Andy"}</h1>
+          <h2>${variables.role ? variables.role : "Whuddya do?"}</h2>
+          <h3>${variables.city ? variables.city : "Absolutely"}, ${variables.country ? variables.country : "Nowhere"}</h3>
+          <ul class="${variables.socialMediaPosition}">
+            <li><a href="https://twitter.com/${variables.twitter ? variables.twitter : "4geeksacademy"}"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="https://github.com/${variables.github ? variables.github : "4geeksacademy"}"><i class="fab fa-github"></i></a></li>
+            <li><a href="https://linkedin.com/${variables.linkedin ? variables.linkedin : "4geeksacademy"}"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://instagram.com/${variables.instagram ? variables.twitter : "instagram"}"><i class="fab fa-instagram"></i></a></li>
           </ul>
         </div>
     `;
@@ -77,14 +77,28 @@ window.onload = function() {
       // <- add a listener to every input
       const attribute = e.target.getAttribute("for"); // when any input changes, collect the value
       let values = {};
-      values[attribute] =
-        this.value == "" || this.value == "null"
-          ? null
-          : this.value == "true"
-          ? true
-          : this.value == "false"
-          ? false
-          : this.value;
+      //values[attribute] =
+      //  this.value == "" || this.value == "null"
+      //    ? null
+      //    : this.value == "true"
+      //    ? true
+      //    : this.value == "false"
+      //    ? false
+      //    : this.value;
+      switch(this.value) {
+        case "":
+        case "null":
+          values[attribute] = null;
+          break;
+        case "true":
+          values[attribute] = true;
+          break;
+        case "false":
+          values[attribute] = false;
+          break;
+        default:
+          values[attribute] = this.value;
+      }
       render(Object.assign(window.variables, values)); // render again the card with new valus
     });
   });
